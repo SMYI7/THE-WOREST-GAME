@@ -15,6 +15,7 @@ public class Movement: MonoBehaviour
     public int MaxSpeed = 0;
     public float CurrentSpeed = 0;
     public Rigidbody2D rig;
+    public float JumpHieght;
 
     // Start is called before the first frame update
     void Start()
@@ -26,19 +27,31 @@ public class Movement: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      // if (Input.GetAxis("Jump") | CurrentJumps > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps >= 1 )
         {
+            rig.velocity = Vector2.up * JumpHieght;
+            CurrentJumps --;
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0 && Ground == true)
+        {
+            rig.velocity = Vector2.up * JumpHieght;
 
         }
 
+        rig.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * MaxSpeed,rig.velocity.y) ;
         if (Ground == true)
         {
             CurrentJumps = MaxJumps;
         }
        
-    }
+     }
     void FixedUpdate()
     {
         Ground = Physics2D.OverlapCircle(GroundCheck.position, WhereTocCheck, GroundMask);
+        if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0)
+        {
+            rig.velocity = Vector2.up * JumpHieght * Time.deltaTime;
+            CurrentJumps --;
+        }
     }
 }
