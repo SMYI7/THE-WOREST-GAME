@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Movement: MonoBehaviour
 {
-    public float WhereTocCheck;
+
+    public Rigidbody2D rig;
     public Transform GroundCheck  ;
     public LayerMask GroundMask;
     private bool Ground;
@@ -14,10 +16,11 @@ public class Movement: MonoBehaviour
     public int CurrentJumps = 1;
     public int MaxSpeed = 0;
     public float CurrentSpeed = 0;
-    public Rigidbody2D rig;
+    public float WhereTocCheck;
     public float JumpHieght;
     [SerializeField] private FrontZone isItInZone;
-    // Start is called before the first frame update
+    
+   
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -32,11 +35,11 @@ public class Movement: MonoBehaviour
             rig.velocity = Vector2.up * JumpHieght;
             CurrentJumps --;
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0 && Ground == true && isItInZone.TargtedZone == false)
-        {
-            rig.velocity = Vector2.up * JumpHieght;
+        //else if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0 && Ground == true && isItInZone.TargtedZone == false)
+        //{
+          //  rig.velocity = Vector2.up * JumpHieght;
 
-        }
+        //}
         if (isItInZone.TargtedZone == false)
         {
             rig.gravityScale = 15;
@@ -46,15 +49,19 @@ public class Movement: MonoBehaviour
         {
             CurrentJumps = MaxJumps;
         }
-       
-     }
+        Ground = Physics2D.OverlapCircle(GroundCheck.position, WhereTocCheck, GroundMask);
+    }
     void FixedUpdate()
     {
-        Ground = Physics2D.OverlapCircle(GroundCheck.position, WhereTocCheck, GroundMask);
+        
         if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0 && isItInZone.TargtedZone == false)
         {
-            rig.velocity = Vector2.up * JumpHieght * Time.deltaTime;
+            rig.velocity = Vector2.up * JumpHieght * Time.fixedDeltaTime;
             CurrentJumps --;
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(GroundCheck.position, WhereTocCheck);
     }
 }

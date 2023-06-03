@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class MovementFrony: MonoBehaviour
 {
+    
     private Vector2 axis;
     public int MaxSpeed = 0;
     public float CurrentSpeed = 0;
     public Rigidbody2D rig;
     public float JumpHieght;
     [SerializeField] private FrontZone isItInZone;
+    [SerializeField] SowredHit SowredHB;
     Vector2 moveD;
     
 
@@ -34,7 +36,10 @@ public class MovementFrony: MonoBehaviour
             rig.gravityScale = 0;
           //  moveD = new Vector2(axis.x, axis.y);
         }
-
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+           
+        }
     }
     private void FixedUpdate()
     {
