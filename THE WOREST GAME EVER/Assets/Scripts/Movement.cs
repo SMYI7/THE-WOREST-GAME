@@ -30,16 +30,10 @@ public class Movement: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0 && isItInZone.TargtedZone == false )
-        {
-            rig.velocity = Vector2.up * JumpHieght;
-            CurrentJumps --;
-        }
-        //else if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0 && Ground == true && isItInZone.TargtedZone == false)
-        //{
-          //  rig.velocity = Vector2.up * JumpHieght;
+       
+       
 
-        //}
+       
         if (isItInZone.TargtedZone == false)
         {
             rig.gravityScale = 15;
@@ -59,6 +53,9 @@ public class Movement: MonoBehaviour
             rig.velocity = Vector2.up * JumpHieght * Time.fixedDeltaTime;
             CurrentJumps --;
         }
+else if (Input.GetKeyDown(KeyCode.Space) && CurrentJumps > 0 && Ground == true && isItInZone.TargtedZone == false)
+        {
+           rig.velocity = Vector2.up * JumpHieght * Time.FixedDeltaTime;
     }
     private void OnDrawGizmos()
     {
